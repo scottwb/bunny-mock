@@ -21,7 +21,7 @@ See the first "integration" test case in `spec/lib/bunny_mock_spec.rb` for a qui
 
 # Author
 
-Scott W. Bradley == http://scottwb.com
+Scott W. Bradley - http://scottwb.com
 
 # Contributing
 

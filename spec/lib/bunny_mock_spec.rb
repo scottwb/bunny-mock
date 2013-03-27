@@ -58,6 +58,14 @@ end
 describe BunnyMock do
   Given(:bunny) { BunnyMock.new }
 
+  describe "#start" do
+    Then { bunny.start.should be_nil }
+  end
+
+  describe "#start" do
+    Then { bunny.stop.should be_nil }
+  end
+
   describe "#queue" do
     When(:queue) { bunny.queue("my_queue", :durable => true) }
     Then { queue.should be_a BunnyMock::Queue }

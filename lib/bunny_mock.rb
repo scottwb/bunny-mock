@@ -1,5 +1,13 @@
 class BunnyMock
 
+  def start
+    # no-op
+  end
+
+  def stop
+    # no-op
+  end
+
   def queue(*attrs)
     BunnyMock::Queue.new(*attrs)
   end

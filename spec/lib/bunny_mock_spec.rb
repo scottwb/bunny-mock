@@ -143,7 +143,7 @@ describe BunnyMock::Queue do
     Then { consumer.message_count.should == 5 }
   end
 
-  describe "attribute accessors" do
+  describe "#method_missing" do
     Then { queue.durable.should be_true }
     Then { queue.should be_durable }
     Then { queue.auto_delete.should be_true }
@@ -151,6 +151,7 @@ describe BunnyMock::Queue do
     Then { queue.exclusive.should == false }
     Then { queue.should_not be_exclusive }
     Then { queue.arguments.should == {"x-ha-policy" => "all"} }
+    Then { expect { queue.wtf }.to raise_error NoMethodError }
   end
 end
 
@@ -204,11 +205,12 @@ describe BunnyMock::Exchange do
     Then { queue2.messages.should == ["hello"] }
   end
 
-  describe "attribute accessors" do
+  describe "#method_missing" do
     Then { exchange.type.should == :direct }
     Then { exchange.durable.should be_true }
     Then { exchange.should be_durable }
     Then { exchange.auto_delete.should be_true }
     Then { exchange.should be_auto_delete }
+    Then { expect { exchange.wtf }.to raise_error NoMethodError }
   end
 end

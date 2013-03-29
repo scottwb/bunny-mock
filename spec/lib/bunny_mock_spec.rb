@@ -62,6 +62,10 @@ describe BunnyMock do
     Then { bunny.start.should be_nil }
   end
 
+  describe "#qos" do
+    Then { bunny.qos.should be_nil }
+  end
+
   describe "#start" do
     Then { bunny.stop.should be_nil }
   end

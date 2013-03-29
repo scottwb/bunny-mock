@@ -4,6 +4,10 @@ class BunnyMock
     # no-op
   end
 
+  def qos
+    # no-op
+  end
+
   def stop
     # no-op
   end

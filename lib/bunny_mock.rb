@@ -1,15 +1,15 @@
 class BunnyMock
 
   def start
-    # no-op
+    :connected
   end
 
   def qos
-    # no-op
+    :qos_ok
   end
 
   def stop
-    # no-op
+    nil
   end
 
   def queue(*attrs)

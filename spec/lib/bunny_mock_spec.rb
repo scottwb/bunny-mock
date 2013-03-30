@@ -59,14 +59,14 @@ describe BunnyMock do
   Given(:bunny) { BunnyMock.new }
 
   describe "#start" do
-    Then { bunny.start.should be_nil }
+    Then { bunny.start.should == :connected }
   end
 
   describe "#qos" do
-    Then { bunny.qos.should be_nil }
+    Then { bunny.qos.should == :qos_ok }
   end
 
-  describe "#start" do
+  describe "#stop" do
     Then { bunny.stop.should be_nil }
   end
 

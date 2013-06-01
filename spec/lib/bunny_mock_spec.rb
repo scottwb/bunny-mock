@@ -38,6 +38,12 @@ describe "BunnyMock Integration Tests", :integration => true do
       "Message 2",
       "Message 3"
     ]
+    queue.snapshot_messages.should have(3).messages
+    queue.snapshot_messages.should == [
+      "Message 1",
+      "Message 2",
+      "Message 3"
+    ]
 
     # Here's what we expect to happen when we subscribe to this queue.
     handler = mock("target")
@@ -117,6 +123,11 @@ describe BunnyMock::Queue do
     Then { queue.messages.should be_empty }
   end
 
+  describe "#snapshot_messages" do
+    Then { queue.snapshot_messages.should be_an Array }
+    Then { queue.snapshot_messages.should be_empty }
+  end
+
   describe "#delivery_count" do
     Then { queue.delivery_count.should == 0 }
   end
@@ -130,8 +141,22 @@ describe BunnyMock::Queue do
     }
     When { queue.subscribe { |msg| handler.handle(msg[:payload]) } }
     Then { queue.messages.should be_empty }
+    Then { queue.snapshot_messages.should be_empty }
     Then { queue.delivery_count.should == 2 }
     Then { verify_mocks_for_rspec }
+  end
+
+  describe "#snapshot_messages" do
+    Given { queue.messages = ["Ehh", "What's up Doc?"] }
+    Then {
+      snapshot = queue.snapshot_messages
+      snapshot.should == ["Ehh", "What's up Doc?"]
+      snapshot.shift
+      snapshot << "Nothin"
+      snapshot.should == ["What's up Doc?", "Nothin"]
+      queue.messages.should == ["Ehh", "What's up Doc?"]
+      queue.snapshot_messages.should == ["Ehh", "What's up Doc?"]
+    }
   end
 
   describe "#bind" do
@@ -206,7 +231,9 @@ describe BunnyMock::Exchange do
     Given { queue2.bind(exchange) }
     When { exchange.publish("hello") }
     Then { queue1.messages.should == ["hello"] }
+    Then { queue1.snapshot_messages.should == ["hello"] }
     Then { queue2.messages.should == ["hello"] }
+    Then { queue2.snapshot_messages.should == ["hello"] }
   end
 
   describe "#method_missing" do

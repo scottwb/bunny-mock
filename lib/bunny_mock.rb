@@ -52,6 +52,16 @@ class BunnyMock
       BunnyMock::Consumer.new(self.delivery_count)
     end
 
+    # NOTE: This is NOT a method that is supported on real Bunny queues.
+    #       This is a custom method to get us a deep copy of
+    #       all the messages currently in the queue. This is provided
+    #       to aid in testing a system where it is not practical for the
+    #       test to subscribe to the queue and read the messages, but we
+    #       need to verify that certain messages have been published.
+    def snapshot_messages
+      Marshal.load(Marshal.dump(messages))
+    end
+
     def method_missing(method, *args)
       method_name  = method.to_s
       is_predicate = false
